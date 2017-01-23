@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -68,7 +69,12 @@ public class MainFragment extends Fragment {
         gridview = (GridView) rootView.findViewById(my_grid_view);
 
 
-
+        gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(),"you clicked item"+String.valueOf(position),Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         WindowManager wm =(WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
