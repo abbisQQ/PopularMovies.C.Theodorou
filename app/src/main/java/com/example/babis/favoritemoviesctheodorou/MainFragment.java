@@ -3,6 +3,7 @@ package com.example.babis.favoritemoviesctheodorou;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -48,7 +49,19 @@ public class MainFragment extends Fragment {
     ImageAdapter adapter;
     GridView gridview;
     static ArrayList<String> posters, ratings, titles, overviews, dates;
-    final String API_KEY = "f780f720bae7adbe3ff65f2c74337c36";
+
+
+
+    //Enter your API key Here
+    //!!!!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!!!!!!!!!!!!!
+    final String API_KEY = "";
+    //!!!!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!!!!!!!!!!!!!
+    //!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
     static boolean sortByPop = true;
 
 
@@ -68,11 +81,23 @@ public class MainFragment extends Fragment {
         adapter = new ImageAdapter(getActivity(), array, width);
         gridview = (GridView) rootView.findViewById(my_grid_view);
 
-
+        //Handler on clicks in the grid-view
         gridview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(),"you clicked item"+String.valueOf(position),Toast.LENGTH_SHORT).show();
+
+
+                Intent intent = new Intent(getActivity(),MovieDetailsActivity.class)
+                        .putExtra("overview",overviews.get(position))
+                        .putExtra("rating",ratings.get(position))
+                        .putExtra("title",titles.get(position))
+                        .putExtra("date",dates.get(position))
+                        .putExtra("poster",posters.get(position));
+
+
+                startActivity(intent);
+
+
             }
         });
 
@@ -128,12 +153,6 @@ public class MainFragment extends Fragment {
         return super.onOptionsItemSelected(item);
 
     }
-
-
-
-
-
-
 
 
 
@@ -209,7 +228,14 @@ public class MainFragment extends Fragment {
                     JSONResult = buffer.toString();
 
                     try {
+
+                        overviews = new ArrayList<>(Arrays.asList(getMovieDetailsFromJSON(JSONResult,"overview")));
+                        dates = new ArrayList<>(Arrays.asList(getMovieDetailsFromJSON(JSONResult,"release_date")));
+                        ratings = new ArrayList<>(Arrays.asList(getMovieDetailsFromJSON(JSONResult,"vote_average")));
+                        titles = new ArrayList<>(Arrays.asList(getMovieDetailsFromJSON(JSONResult,"original_title")));
+
                         return getPathsFromJSON(JSONResult);
+
                     } catch (JSONException e) {
                         return null;
                     }
@@ -235,6 +261,31 @@ public class MainFragment extends Fragment {
 
             }
         }
+
+        String[] getMovieDetailsFromJSON(String JSONStringParam, String param) throws JSONException{
+            JSONObject JSONString = new JSONObject(JSONStringParam);
+
+            JSONArray moviesArray = JSONString.getJSONArray("results");
+            String[] result = new String[moviesArray.length()];
+
+            for(int i = 0; i<moviesArray.length();i++)
+            {
+                JSONObject movie = moviesArray.getJSONObject(i);
+
+                if(param.equals("vote_average")) {
+                    Double movieRating = movie.getDouble("vote_average");
+                    String data =  Double.toString(movieRating)+"/10";
+                    result[i]=data;
+                }else {
+                    // instead of the poster_path this time we can get everything else using the second parameter param
+                    String data = movie.getString(param);
+                    result[i] = data;
+                }
+            }
+            return result;
+        }
+        }
+
         String[] getPathsFromJSON(String JSONStringParam) throws JSONException{
 
             JSONObject JSONString = new JSONObject(JSONStringParam);
@@ -263,7 +314,7 @@ public class MainFragment extends Fragment {
 
 
 
-}
+
 
 
 
