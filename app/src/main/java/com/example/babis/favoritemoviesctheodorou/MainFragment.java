@@ -94,7 +94,6 @@ public class MainFragment extends Fragment {
                         .putExtra("date",dates.get(position))
                         .putExtra("poster",posters.get(position));
 
-
                 startActivity(intent);
 
 
