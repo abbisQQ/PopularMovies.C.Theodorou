@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FavoriteMovies C. Theodorou</string>
+    <string name="app_name">Most Popular Movies</string>
     <string name="top_rated">Top Rated Movies</string>
     <string name="most_popular">Most Popular Movies</string>
     <string name="no_internet">Sorry No Internet Connection</string>

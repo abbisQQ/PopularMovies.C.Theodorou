@@ -48,15 +48,26 @@ public class MainActivity extends AppCompatActivity {
 
         switch (menuItem){
             case R.id.most_popular_menu_item:
-                MainFragment.sortByPop=true;
+                if( !MainFragment.sortByPop) {
+                    MainFragment.sortByPop = true;
+                    setTitle(R.string.most_popular);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container,new MainFragment()).commit();
+                }
                 break;
             case R.id.top_rated_menu_item:
-                MainFragment.sortByPop=false;
+                if( MainFragment.sortByPop) {
+                    MainFragment.sortByPop = false;
+                    setTitle(R.string.top_rated);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container,new MainFragment()).commit();
+                }
         }
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container,new MainFragment()).commit();
+
 
 
         return true;
     }
+
+
+
 }

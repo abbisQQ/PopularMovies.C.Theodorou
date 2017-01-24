@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
@@ -59,5 +60,8 @@ public class MovieDetailsFragment extends Fragment {
 
         return rootView;
     }
+
+
+
 
 }

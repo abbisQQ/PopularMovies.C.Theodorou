@@ -125,14 +125,12 @@ public class MainFragment extends Fragment {
 
 
 
-
-
     @Override
     public void onStart() {
         super.onStart();
+
         if(isNetworkAvailable())
         {
-
             new ImageLoadTask().execute();
         }
         else{
@@ -202,9 +200,9 @@ public class MainFragment extends Fragment {
                 try {
                     String urlString;
                     if (sortbypop) {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + API_KEY;
+                        urlString = "http://api.themoviedb.org/3/movie/popular?sort_by=popularity.desc&api_key=" + API_KEY;
                     } else {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=500&api_key=" + API_KEY;
+                        urlString = "http://api.themoviedb.org/3/movie/top_rated?sort_by=vote_average.desc&vote_count.gte=500&api_key=" + API_KEY;
                     }
                     URL url = new URL(urlString);
                     urlConnection = (HttpURLConnection) url.openConnection();
